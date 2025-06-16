@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The traveller_001</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    .scrolling-text {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  color: #000;
+  padding: 10px 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1rem;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.scrolling-text span {
+  display: inline-block;
+  animation: scrollText 15s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes scrollText {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+   body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* ✅ Add this line */
+  transition: background-image 0.3s ease-in-out;
+}
+
+
+    header {
+      color: #fff;
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.8em;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-weight: 300;
+    }
+
+    nav {
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    nav a {
+      padding: 15px 20px;
+      color: #0b60b6;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s ease-in-out;
+    }
+
+    nav a:hover {
+      background: #f0f0f0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      transition: transform 0.2s;
+      backdrop-filter: blur(8px);
+      color: #fff;
+    }
+
+    #home.card { background: linear-gradient(135deg, #005c97, #9e9fde); }
+    #blog.card { background: linear-gradient(135deg, #8e44ad, #2980b9); }
+   #write.card {
+  background: rgba(255, 255, 255, 0.1); /* transparent white */
+  backdrop-filter: blur(12px);
+  color: #fff;
+}
+
+    #about.card { background: linear-gradient(135deg, #00c9ff, #92fe9d); }
+    #contact.card { background: linear-gradient(135deg, #ad5594, #68b9bf); }
+
+    .card:hover { transform: scale(1.01); }
+
+    footer {
+      color: #fff;
+      background: transparent;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 40px;
+    }
+
+    .hidden { display: none; }
+
+    input[type="text"], input[type="email"], textarea {
+      width: 80%;
+      padding: 10px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+
+    input[type="file"] {
+      margin-bottom: 15px;
+    }
+
+    button {
+      background: #060708;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background: #2980b9;
+    }
+
+    .blog-post img {
+      max-width: 100%;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+
+    .login-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .login-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 320px;
+      width: 90%;
+    }
+
+    .login-box h2 {
+      margin-bottom: 20px;
+    }
+
+    .popup {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #000;
+      color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+      z-index: 1000;
+    }
+
+    @media (max-width: 600px) {
+      nav { flex-direction: column; }
+      nav a {
+        padding: 10px 15px;
+        border-top: 1px solid #adeafe;
+        width: 100%;
+        text-align: center;
+      }
+      header h1 { font-size: 2em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <h2>Welcome Traveller</h2>
+      <p>Login to continue...</p>
+      <input type="email" id="userEmail" placeholder="Enter your email address" />
+      <br/>
+      <button onclick="loginUser()">Submit</button>
+      <button onclick="skipLogin()">Later</button>
+    </div>
+  </div>
+
+  <div class="popup" id="popupMsg">Keep exploring and writing!</div>
+
+  <header>
+    <h1>The travellers zone</h1>
+    <p>earn-travel-repeat</p>
+  </header>
+
+  <nav>
+    <a onclick="showPage('home')">Home</a>
+    <a onclick="showPage('blog')">Blog</a>
+    <a onclick="showPage('write')">Write Blog</a>
+    <a onclick="showPage('about')">About</a>
+    <a onclick="showPage('contact')">Contact</a>
+  </nav>
+
+  <div class="container">
+    <div id="home" class="card page-section">
+      <h2>Welcome to travellers zone!</h2>
+      <p style="color:beige">This is your personal space to write blog posts and share your journeys with the world. Start by writing a blog or reading past entries!</p>
+    </div>
+
+    <div id="blog" class="card page-section hidden">
+      <h2>All Blog Posts</h2>
+      <div id="blogList"></div>
+    </div>
+
+    <div id="write" class="card page-section hidden">
+      <h2>Write a New Blog</h2>
+      <input type="text" id="blogTitle" placeholder="Blog Title" />
+      <textarea id="blogContent" rows="8" placeholder="Write your blog content here..."></textarea>
+      <input type="file" id="blogImage" accept="image/*" />
+      <button onclick="saveBlog()">Publish</button>
+    </div>
+
+    <div id="about" class="card page-section hidden">
+      <h2 style="color: #000;">About Me</h2>
+      <p style="color: #000;">I'm Sarvesh – a passionate blogger writing about travel, technology, and personal development. I believe in the power of words and storytelling.</p>
+    </div>
+
+    <div id="contact" class="card page-section hidden">
+      <h2>Contact Me</h2>
+      <p>You can reach me anytime at: <a href="mailto:pisalnishant54@gmail.com">pisalnishant54@gmail.com</a></p>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 The traveller_001</p>
+  </footer>
+
+  <script>
+    const backgrounds = {
+      home: 'wp5176299.webp',
+      blog: 'bh.jpg',
+      write: 'flrs.jpg',
+      about: 'ur.jpg',
+      contact: 'b8.webp'
+    };ebp
+
+    function showPage(pageId) {
+      const sections = document.querySelectorAll('.page-section');
+      sections.forEach(section => section.classList.add('hidden'));
+      document.getElementById(pageId).classList.remove('hidden');
+      document.body.style.backgroundImage = `url('${backgrounds[pageId]}')`;
+
+      if (pageId === 'blog') renderBlogPosts();
+    }
+
+    function saveBlog() {
+      const title = document.getElementById("blogTitle").value.trim();
+      const content = document.getElementById("blogContent").value.trim();
+      const imageInput = document.getElementById("blogImage");
+
+      if (!title || !content) {
+        alert("Please enter both title and content.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function() {
+        const post = {
+          title: title,
+          content: content,
+          date: new Date().toLocaleString(),
+          image: reader.result || ''
+        };
+
+        const blogs = JSON.parse(localStorage.getItem("blogs") || "[]");
+        blogs.unshift(post);
+        localStorage.setItem("blogs", JSON.stringify(blogs));
+
+        document.getElementById("blogTitle").value = '';
+        document.getElementById("blogContent").value = '';
+        document.getElementById("blogImage").value = '';
+
+        alert("Blog published!");
+        showPage("blog");
+      };
+
+      if (imageInput.files[0]) {
+        reader.readAsDataURL(imageInput.files[0]);
+      } else {
+        reader.onload();
+      }
+    }
+
+    function renderBlogPosts() {
+      const blogList = document.getElementById("blogList");
+      const blogs = JSON.parse(localStorage.getItem("blogs") || "[]");
+      blogList.innerHTML = blogs.length === 0 ? "<p>No blog posts yet.</p>" : "";
+
+      blogs.forEach(post => {
+        const div = document.createElement("div");
+        div.className = "blog-post";
+        div.innerHTML = `
+          <h3>${post.title}</h3>
+          <small>${post.date}</small>
+          <p>${post.content}</p>
+          ${post.image ? `<img src="${post.image}" alt="Blog Image" />` : ''}
+          <hr/>
+        `;
+        blogList.appendChild(div);
+      });
+    }
+
+    function loginUser() {
+      const email = document.getElementById("userEmail").value.trim();
+      if (!email || !email.includes("@")) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+      localStorage.setItem("userEmail", email);
+      document.getElementById("loginScreen").style.display = "none";
+      showPage("home");
+      startPopupReminder();
+    }
+
+    function skipLogin() {
+      document.getElementById("loginScreen").style.display = "none";
+      showPage("home");
+      startPopupReminder();
+    }
+
+    function startPopupReminder() {
+      setInterval(() => {
+        const popup = document.getElementById("popupMsg");
+        popup.style.display = "block";
+        setTimeout(() => popup.style.display = "none", 4000);
+      }, 5 * 60 * 1000);
+    }
+
+    document.getElementById("loginScreen").style.display = "flex";
+  </script>
+  <div class="scrolling-text">
+  <span>follow us on instagram traveller_001</span>
+</div>
+</body>
+</html>
